@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "commandbinds",
+  "version": "${version}",
+  "name": "CommandBinds",
+  "description": "Adds ability to add your own command keybinds",
+  "authors": [
+    "BillyGalbreath"
+  ],
+  "contact": {
+    "homepage": "https://github.com/BillyGalbreath/CommandBinds/"
+  },
+  "license": "MIT",
+  "icon": "assets/commandbinds/logo.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.pl3x.commandbinds.CommandBinds"
+    ]
+  },
+  "mixins": [
+    "commandbinds.mixins.json"
+  ],
+  "accessWidener": "commandbinds.accesswidener",
+  "depends": {
+    "fabricloader": ">=${fabricLoaderVersion}",
+    "fabric": ">=${fabricApiVersion}",
+    "minecraft": "~${minecraftVersion}",
+    "java": ">=17"
+  }
+}

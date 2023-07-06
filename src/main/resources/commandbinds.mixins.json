@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.pl3x.commandbinds.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "commandbinds.refmap.json",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "AbstractSelectionListMixin",
+    "AbstractWidgetAccessor",
+    "KeyBindsListAccessor",
+    "KeyBindsListCategoryEntryMixin",
+    "KeyBindsListKeyEntryMixin",
+    "KeyBindsListMixin",
+    "KeyBindsScreenAccessor",
+    "KeyBindsScreenMixin",
+    "ScreenAccessor"
+  ]
+}

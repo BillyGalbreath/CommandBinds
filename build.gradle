@@ -1,0 +1,65 @@
+plugins {
+    id 'java'
+    id 'fabric-loom' version "$fabricLoomVersion"
+}
+
+defaultTasks 'build'
+
+def buildNum = System.getenv('GITHUB_RUN_NUMBER') ?: 'SNAPSHOT'
+project.group = 'net.pl3x.commandbinds'
+project.version = "$minecraftVersion-$buildNum"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenLocal()
+    maven { url = 'https://maven.fabricmc.net/' }
+    maven { url = 'https://repo.pl3x.net/public/' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:$minecraftVersion"
+    mappings loom.officialMojangMappings()
+
+    modImplementation "net.fabricmc:fabric-loader:$fabricLoaderVersion"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
+
+    modImplementation include("net.pl3x.keyboard:keyboard:$keyboardVersion")
+    modImplementation include("net.pl3x.lib:pl3xlib:$pl3xlibVersion")
+}
+
+jar {
+    archiveBaseName = "${rootProject.name}-${project.name}"
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.release.set(17)
+}
+
+processResources {
+    filteringCharset = 'UTF-8'
+    filesMatching('fabric.mod.json') {
+        expand(
+                'version': project.version,
+                'fabricApiVersion': fabricApiVersion,
+                'fabricLoaderVersion': fabricLoaderVersion,
+                'minecraftVersion': minecraftVersion,
+        )
+    }
+}
+
+loom {
+    mixin {
+        defaultRefmapName = 'commandbinds.refmap.json'
+    }
+    accessWidenerPath = file('src/main/resources/commandbinds.accesswidener')
+    runConfigs.configureEach {
+        ideConfigGenerated(true)
+    }
+}
