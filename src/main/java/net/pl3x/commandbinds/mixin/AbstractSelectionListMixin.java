@@ -2,7 +2,6 @@ package net.pl3x.commandbinds.mixin;
 
 import java.util.List;
 import net.minecraft.client.gui.components.AbstractSelectionList;
-import net.minecraft.client.gui.screens.controls.KeyBindsList;
 import net.minecraft.util.Mth;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

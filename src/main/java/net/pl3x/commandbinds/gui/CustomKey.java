@@ -8,11 +8,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.controls.KeyBindsScreen;
 import net.minecraft.network.chat.Component;
 import net.pl3x.commandbinds.CommandBinds;
+import net.pl3x.commandbinds.gui.screen.ModalScreen;
 import net.pl3x.commandbinds.mixin.AbstractWidgetAccessor;
 import net.pl3x.keyboard.Key;
-import net.pl3x.keyboard.Keyboard;
 import org.jetbrains.annotations.NotNull;
 
 public class CustomKey extends Key implements Tickable {
@@ -54,12 +55,12 @@ public class CustomKey extends Key implements Tickable {
 
     public void init() {
         this.removeBtn = new CustomButton(0, 0, 16, 16, 16, 0, 16, 16, btn -> {
-            Keyboard.unbindKey(this);
-            CommandBinds.refreshKeyBindScreen();
-            //Minecraft client = Minecraft.getInstance();
-            //if (client.screen instanceof KeyBindsScreen screen) {
-            //    client.setScreen(new ModalScreen(screen));
-            //}
+            //Keyboard.unbindKey(this);
+            //CommandBinds.refreshKeyBindScreen();
+            Minecraft client = Minecraft.getInstance();
+            if (client.screen instanceof KeyBindsScreen screen) {
+                client.setScreen(new ModalScreen(screen));
+            }
         });
 
         this.editbox = new EditBox(Minecraft.getInstance().font, 0, 0, 0, 0, Component.empty());

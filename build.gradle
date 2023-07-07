@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.modrinth.minotaur' version '2.+'
     id 'fabric-loom' version "$fabricLoomVersion"
 }
 
@@ -9,17 +10,9 @@ def buildNum = System.getenv('GITHUB_RUN_NUMBER') ?: 'SNAPSHOT'
 project.group = 'net.pl3x.commandbinds'
 project.version = "$minecraftVersion-$buildNum"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
-
 repositories {
-    mavenLocal()
     maven { url = 'https://maven.fabricmc.net/' }
     maven { url = 'https://repo.pl3x.net/public/' }
-    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
 }
 
 dependencies {
@@ -29,17 +22,31 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:$fabricLoaderVersion"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
 
-    modImplementation include("net.pl3x.keyboard:keyboard:$keyboardVersion")
     modImplementation include("net.pl3x.lib:pl3xlib:$pl3xlibVersion")
+    modImplementation include("net.pl3x.keyboard:keyboard:$keyboardVersion")
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 jar {
-    archiveBaseName = "${rootProject.name}-${project.name}"
+    archiveBaseName = "${project.name}"
 }
 
 compileJava {
     options.encoding = 'UTF-8'
     options.release.set(17)
+}
+
+javadoc {
+    options.encoding = 'UTF-8'
+    options.addBooleanOption('html5', true)
+    title = "${rootProject.name}-${project.version} API"
 }
 
 processResources {
@@ -62,4 +69,17 @@ loom {
     runConfigs.configureEach {
         ideConfigGenerated(true)
     }
+}
+
+modrinth {
+    autoAddDependsOn = false
+    token = System.getenv('MODRINTH_TOKEN')
+    projectId = 'commandbinds'
+    versionName = "${project.version}"
+    versionNumber = "${project.version}"
+    versionType = 'release'
+    uploadFile = rootProject.layout.buildDirectory.file("libs/${rootProject.name}-${project.version}.jar").get()
+    gameVersions.addAll(["${minecraftVersion}"])
+    loaders.addAll(['fabric'])
+    changelog = System.getenv('COMMIT_MESSAGE')
 }

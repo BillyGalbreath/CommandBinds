@@ -1,0 +1,53 @@
+name: Build Release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.commits[0].message, '[ci-skip]')"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Restore gradle.properties
+        env:
+          GRADLE_PROPERTIES: ${{ secrets.GRADLE_PROPERTIES }}
+        shell: bash
+        run: |
+          mkdir -p ~/.gradle/
+          echo "GRADLE_USER_HOME=${HOME}/.gradle" >> $GITHUB_ENV
+          echo "${GRADLE_PROPERTIES}" > ~/.gradle/gradle.properties
+      - uses: actions/setup-java@v2
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Import gradle properties
+        shell: bash
+        run: cat gradle.properties >> $GITHUB_ENV
+      - name: Build
+        run: ./gradlew build modrinth --stacktrace
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          COMMIT_MESSAGE: ${{ join(github.event.commits.*.message, '<br>') }}
+      - name: Notify Discord
+        uses: BillyGalbreath/actions-status-discord@main
+        if: success()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          noprefix: true
+          title: New build of CommandBinds is ready!
+          description: |
+            Version ${{ env.minecraftVersion }} build ${{ github.run_number }}
+            Click [here](https://modrinth.com/mod/commandbinds/version/${{ env.minecraftVersion }}-${{ github.run_number }}) to download!
+      - name: Notify Discord
+        uses: BillyGalbreath/actions-status-discord@main
+        if: ${{ failure() }}
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          noprefix: true
+          title: CommandBinds Build Failure!
+          color: 0xff0000
+          description: |
+            Version ${{ env.minecraftVersion }} build ${{ github.run_number }}
+            Click [here](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to view the run!

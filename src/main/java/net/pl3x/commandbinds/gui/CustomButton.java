@@ -20,8 +20,6 @@ public class CustomButton extends Button {
     private static final float BTN_TEX_WIDTH = 32F;
     private static final float BTN_TEX_HEIGHT = 32F;
 
-    public static int IDK_HOW_ELSE_TO_PASS_THIS_MAXWIDTH;
-
     private final float u0, v0, u1, v1;
 
     public CustomButton(int x, int y, int width, int height, int u0, int v0, int u1, int v1, @NotNull OnPress onPress) {

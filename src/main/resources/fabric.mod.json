@@ -8,10 +8,12 @@
     "BillyGalbreath"
   ],
   "contact": {
-    "homepage": "https://github.com/BillyGalbreath/CommandBinds/"
+    "homepage": "https://github.com/BillyGalbreath/CommandBinds/",
+    "sources": "https://github.com/BillyGalbreath/CommandBinds/",
+    "issues": "https://github.com/BillyGalbreath/CommandBinds/issues/"
   },
   "license": "MIT",
-  "icon": "assets/commandbinds/logo.png",
+  "icon": "assets/commandbinds/textures/logo.png",
   "environment": "client",
   "entrypoints": {
     "client": [
@@ -27,5 +29,13 @@
     "fabric": ">=${fabricApiVersion}",
     "minecraft": "~${minecraftVersion}",
     "java": ">=17"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/kHWFx7bFZh",
+        "modrinth.download.link": "https://modrinth.com/mod/commandbinds/"
+      }
+    }
   }
 }
