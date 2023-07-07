@@ -8,8 +8,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.pl3x.commandbinds.mixin.KeyBindsScreenAccessor;
-import net.pl3x.lib.animation.Animation;
-import net.pl3x.lib.animation.Easing;
+import net.pl3x.lib.gui.animation.Animation;
+import net.pl3x.lib.gui.animation.Easing;
 import org.jetbrains.annotations.NotNull;
 
 public class ModalScreen extends Screen {
@@ -37,7 +37,6 @@ public class ModalScreen extends Screen {
     public void render(@NotNull GuiGraphics gfx, int mouseX, int mouseY, float delta) {
         renderBackground(gfx);
         RenderSystem.setShaderColor(1, 1, 1, 1);
-
 
 
         super.render(gfx, mouseX, mouseY, delta);
