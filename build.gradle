@@ -77,7 +77,7 @@ modrinth {
     projectId = 'commandbinds'
     versionName = "${project.version}"
     versionNumber = "${project.version}"
-    versionType = 'release'
+    versionType = 'alpha'
     uploadFile = rootProject.layout.buildDirectory.file("libs/${rootProject.name}-${project.version}.jar").get()
     gameVersions.addAll(["${minecraftVersion}"])
     loaders.addAll(['fabric'])
