@@ -22,8 +22,8 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:$fabricLoaderVersion"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
 
-    modImplementation include("net.pl3x.lib:pl3xlib:$pl3xlibVersion")
     modImplementation include("net.pl3x.keyboard:keyboard:$keyboardVersion")
+    modImplementation include("net.pl3x.lib:pl3xlib:$pl3xlibVersion")
 }
 
 java {
