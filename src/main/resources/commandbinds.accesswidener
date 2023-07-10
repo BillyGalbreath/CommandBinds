@@ -1,3 +1,17 @@
 accessWidener v2 named
 
+accessible method net/minecraft/client/gui/components/AbstractSelectionList addEntry (Lnet/minecraft/client/gui/components/AbstractSelectionList$Entry;)I
+accessible field net/minecraft/client/gui/components/AbstractSelectionList itemHeight I
 accessible class net/minecraft/client/gui/components/AbstractSelectionList$Entry
+
+accessible field net/minecraft/client/gui/components/AbstractWidget height I
+
+accessible field net/minecraft/client/gui/screens/controls/KeyBindsList keyBindsScreen Lnet/minecraft/client/gui/screens/controls/KeyBindsScreen;
+accessible field net/minecraft/client/gui/screens/controls/KeyBindsList maxNameWidth I
+accessible field net/minecraft/client/gui/screens/controls/KeyBindsList$CategoryEntry name Lnet/minecraft/network/chat/Component;
+
+accessible method net/minecraft/client/gui/screens/controls/KeyBindsScreen init ()V
+accessible field net/minecraft/client/gui/screens/controls/KeyBindsScreen keyBindsList Lnet/minecraft/client/gui/screens/controls/KeyBindsList;
+
+accessible method net/minecraft/client/gui/screens/Screen clearWidgets ()V
+accessible method net/minecraft/client/gui/screens/Screen init ()V

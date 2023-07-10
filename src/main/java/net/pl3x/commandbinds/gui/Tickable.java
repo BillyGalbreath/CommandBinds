@@ -1,7 +1,7 @@
 package net.pl3x.commandbinds.gui;
 
 public interface Tickable {
-    void init();
+    void tickable$init();
 
-    void tick();
+    void tickable$tick();
 }

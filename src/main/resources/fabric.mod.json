@@ -18,6 +18,9 @@
   "entrypoints": {
     "client": [
       "net.pl3x.commandbinds.CommandBinds"
+    ],
+    "modmenu": [
+      "net.pl3x.commandbinds.gui.ModMenu"
     ]
   },
   "mixins": [

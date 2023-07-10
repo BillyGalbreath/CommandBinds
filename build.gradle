@@ -11,8 +11,10 @@ project.group = 'net.pl3x.commandbinds'
 project.version = "$minecraftVersion-$buildNum"
 
 repositories {
+    mavenLocal()
     maven { url = 'https://maven.fabricmc.net/' }
     maven { url = 'https://repo.pl3x.net/public/' }
+    maven { url = 'https://maven.terraformersmc.com/' }
 }
 
 dependencies {
@@ -21,6 +23,8 @@ dependencies {
 
     modImplementation "net.fabricmc:fabric-loader:$fabricLoaderVersion"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
+
+    modImplementation "com.terraformersmc:modmenu:${modmenuVersion}"
 
     modImplementation include("net.pl3x.keyboard:keyboard:$keyboardVersion")
     modImplementation include("net.pl3x.lib:pl3xlib:$pl3xlibVersion")
@@ -45,7 +49,7 @@ compileJava {
 
 javadoc {
     options.encoding = 'UTF-8'
-    options.addBooleanOption('html5', true)
+    ((CoreJavadocOptions) options).addBooleanOption('html5', true)
     title = "${rootProject.name}-${project.version} API"
 }
 

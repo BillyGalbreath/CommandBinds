@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.pl3x.commandbinds.gui.CategoryEntryRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -15,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(KeyBindsList.CategoryEntry.class)
 public class KeyBindsListCategoryEntryMixin {
+    @Unique
     private CategoryEntryRenderer categoryEntryRenderer;
 
     /**

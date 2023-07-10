@@ -19,6 +19,7 @@ public class KeyBindsListMixin {
     @SuppressWarnings("DataFlowIssue")
     @Inject(method = "<init>", at = @At("TAIL"))
     private void ctor(@NotNull KeyBindsScreen screen, @NotNull Minecraft client, @NotNull CallbackInfo ci) {
-        ((AbstractSelectionListMixin) (Object) this).addEntry(((KeyBindsList) (Object) this).new CategoryEntry(Component.empty()));
+        KeyBindsList thisKeyBindsList = (KeyBindsList) (Object) this;
+        thisKeyBindsList.addEntry(thisKeyBindsList.new CategoryEntry(Component.empty()));
     }
 }

@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(KeyBindsScreen.class)
 public abstract class KeyBindsScreenMixin extends OptionsSubScreen {
     @Shadow
-    private KeyBindsList keyBindsList;
+    public KeyBindsList keyBindsList;
 
     public KeyBindsScreenMixin(Screen screen, Options options) {
         super(screen, options, Component.translatable("controls.keybinds.title"));
@@ -29,7 +29,7 @@ public abstract class KeyBindsScreenMixin extends OptionsSubScreen {
     private void init(CallbackInfo ci) {
         this.keyBindsList.children().forEach(child -> {
             if (child instanceof Tickable tickable) {
-                tickable.init();
+                tickable.tickable$init();
             }
         });
     }
@@ -41,7 +41,7 @@ public abstract class KeyBindsScreenMixin extends OptionsSubScreen {
     public void tick() {
         this.keyBindsList.children().forEach(child -> {
             if (child instanceof Tickable tickable) {
-                tickable.tick();
+                tickable.tickable$tick();
             }
         });
     }

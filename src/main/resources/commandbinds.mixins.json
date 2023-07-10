@@ -9,13 +9,9 @@
   },
   "client": [
     "AbstractSelectionListMixin",
-    "AbstractWidgetAccessor",
-    "KeyBindsListAccessor",
     "KeyBindsListCategoryEntryMixin",
     "KeyBindsListKeyEntryMixin",
     "KeyBindsListMixin",
-    "KeyBindsScreenAccessor",
-    "KeyBindsScreenMixin",
-    "ScreenAccessor"
+    "KeyBindsScreenMixin"
   ]
 }

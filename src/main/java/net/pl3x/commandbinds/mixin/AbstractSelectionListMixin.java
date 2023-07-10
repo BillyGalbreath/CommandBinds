@@ -3,6 +3,7 @@ package net.pl3x.commandbinds.mixin;
 import java.util.List;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.util.Mth;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,11 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractSelectionList.class)
 public class AbstractSelectionListMixin {
     @Shadow
-    private int y0;
+    protected int y0;
     @Shadow
-    private int headerHeight;
+    protected int headerHeight;
+    @Final
     @Shadow
-    private int itemHeight;
+    public int itemHeight;
 
     @Shadow
     public double getScrollAmount() {
@@ -24,22 +26,17 @@ public class AbstractSelectionListMixin {
     }
 
     @Shadow
-    public int getScrollbarPosition() {
+    protected int getScrollbarPosition() {
         throw new AssertionError();
     }
 
     @Shadow
-    public int getItemCount() {
+    protected int getItemCount() {
         throw new AssertionError();
     }
 
     @Shadow
     public List<AbstractSelectionList.Entry<?>> children() {
-        throw new AssertionError();
-    }
-
-    @Shadow
-    public int addEntry(AbstractSelectionList.Entry<?> entry) {
         throw new AssertionError();
     }
 
