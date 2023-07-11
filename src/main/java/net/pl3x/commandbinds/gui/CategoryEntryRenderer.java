@@ -68,7 +68,7 @@ public class CategoryEntryRenderer {
         float x = this.keyBindsList.keyBindsScreen.width / 2F;
         int y = top + height - 10;
 
-        if (HELLO != null && !HELLO.isFinished()) {
+        if (this.addBtn != null && HELLO != null && !HELLO.isFinished()) {
             gfx.pose().translate(0, 0, 100);
             GL.scaleScene(gfx, x, y, 1 + Mathf.sin(Mathf.PI * HELLO.getValue()) / 4);
             GL.rotateScene(gfx, x, y, Mathf.sin(Mathf.PI * 4 * HELLO.getValue()) * 30);

@@ -40,7 +40,10 @@ public class ModMenuScreen extends KeyBindsScreen {
             if (!(entry instanceof KeyBindsList.CategoryEntry category)) {
                 continue;
             }
-            if (!((TranslatableContents) category.name.getContents()).getKey().equals(CommandBinds.CATEGORY_TITLE)) {
+            if (!(category.name.getContents() instanceof TranslatableContents contents)) {
+                continue;
+            }
+            if (!contents.getKey().equals(CommandBinds.CATEGORY_TITLE)) {
                 continue;
             }
             this.targetScrollAmount = (int) (this.keyBindsList.itemHeight * i + this.keyBindsList.itemHeight - this.height / 2F);

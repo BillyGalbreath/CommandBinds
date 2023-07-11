@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.controls.KeyBindsScreen;
 import net.minecraft.resources.ResourceLocation;
 import net.pl3x.commandbinds.configuration.Config;
+import net.pl3x.commandbinds.gui.CommandKey;
 import net.pl3x.keyboard.Keyboard;
 
 public class CommandBinds implements ClientModInitializer {
@@ -23,6 +24,10 @@ public class CommandBinds implements ClientModInitializer {
         Config.reload();
 
         Config.COMMAND_KEYBINDS.forEach(Keyboard::bindKey);
+
+        if (Config.COMMAND_KEYBINDS.isEmpty()) {
+            Keyboard.bindKey(new CommandKey(-1, ""));
+        }
     }
 
     public static void refreshKeyBindScreen() {
