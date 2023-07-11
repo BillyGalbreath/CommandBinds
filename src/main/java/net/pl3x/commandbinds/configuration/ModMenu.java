@@ -1,4 +1,4 @@
-package net.pl3x.commandbinds.gui;
+package net.pl3x.commandbinds.configuration;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;

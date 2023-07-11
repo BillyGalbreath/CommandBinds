@@ -16,8 +16,8 @@ public class CustomButton extends Button {
     private Animation animation = new Animation(0, 0, 0, Easing.Linear.flat);
     private boolean activated = false;
 
-    public CustomButton(int x, int y, int width, int height, int u0, int v0, int u1, int v1, @NotNull Component text, @NotNull OnPress onPress) {
-        super(x, y, width, height, text, onPress, Button.DEFAULT_NARRATION);
+    public CustomButton(float x, float y, float width, float height, float u0, float v0, float u1, float v1, @NotNull Component text, @NotNull OnPress onPress) {
+        super((int) x, (int) y, (int) width, (int) height, text, onPress, Button.DEFAULT_NARRATION);
         this.u0 = u0;
         this.v0 = v0;
         this.u1 = u1;

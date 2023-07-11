@@ -17,28 +17,28 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ModalScreen extends Screen {
-    private final Screen parent;
+    protected final Screen parent;
 
-    private final int dialogWidth;
-    private final int dialogHeight;
-    private final int initialX;
-    private final int initialY;
+    protected final float modalWidth;
+    protected final float modalHeight;
+    protected final float initialX;
+    protected final float initialY;
 
-    private final Animation cubicOut;
-    private final Animation elasticOut;
-    private final boolean animate;
+    protected final Animation cubicOut;
+    protected final Animation elasticOut;
+    protected final boolean animate;
 
-    private int centerX;
-    private int centerY;
-    private int top;
-    private int left;
+    protected int centerX;
+    protected int centerY;
+    protected int top;
+    protected int left;
 
-    public ModalScreen(@Nullable KeyBindsScreen parent, Component title, int dialogWidth, int dialogHeight, int initialX, int initialY, boolean animate) {
+    public ModalScreen(@Nullable KeyBindsScreen parent, Component title, float modalWidth, float modalHeight, float initialX, float initialY, boolean animate) {
         super(title);
         this.parent = parent;
 
-        this.dialogWidth = dialogWidth;
-        this.dialogHeight = dialogHeight;
+        this.modalWidth = modalWidth;
+        this.modalHeight = modalHeight;
 
         this.initialX = initialX;
         this.initialY = initialY;
@@ -60,11 +60,11 @@ public class ModalScreen extends Screen {
         this.centerX = (int) (this.width / 2F);
         this.centerY = (int) (this.height / 2F);
 
-        this.top = (int) (this.centerY - this.dialogHeight / 2F);
-        this.left = (int) (this.centerX - this.dialogWidth / 2F);
+        this.top = (int) (this.centerY - this.modalHeight / 2F);
+        this.left = (int) (this.centerX - this.modalWidth / 2F);
 
-        CustomButton closeBtn = new CustomButton(this.left + this.dialogWidth - 16, this.top + 3, 13, 13, 32, 3, 45, 16, Component.literal("x"), btn -> onClose());
-        closeBtn.setTooltip(Tooltip.create(Component.literal("Close")));
+        CustomButton closeBtn = new CustomButton(this.left + this.modalWidth - 16, this.top + 3, 13, 13, 32, 3, 45, 16, Component.literal("x"), btn -> onClose());
+        closeBtn.setTooltip(Tooltip.create(Component.translatable("commandbinds.button.close")));
         addRenderableWidget(closeBtn);
     }
 
@@ -85,7 +85,7 @@ public class ModalScreen extends Screen {
                     this.elasticOut.getValue());
         }
 
-        renderDialog(gfx, this.dialogWidth, this.dialogHeight);
+        renderModal(gfx);
 
         RenderSystem.enableBlend();
         RenderSystem.enableDepthTest();
@@ -111,20 +111,19 @@ public class ModalScreen extends Screen {
         gfx.pose().popPose();
     }
 
-    public void renderDialog(@NotNull GuiGraphics gfx, int width, int height) {
-        int x = (int) (this.width / 2F - width / 2F);
-        int y = (int) (this.height / 2F - height / 2F);
+    public void renderModal(@NotNull GuiGraphics gfx) {
+        int x = (int) (this.width / 2F - this.modalWidth / 2F);
+        int y = (int) (this.height / 2F - this.modalWidth / 2F);
 
         GL.nineSlice(gfx, CommandBinds.TEXTURES_LOCATION,
-                x,
-                y,
-                width, height, 6,
-                0, 32, 16, 48,
+                x, y,
+                (int) this.modalWidth, (int) this.modalWidth,
+                6, 0, 32, 16, 48,
                 CommandBinds.TEXTURES_WIDTH,
                 CommandBinds.TEXTURES_HEIGHT
         );
 
-        GL.drawSolidRect(gfx, x + 3, y + 3, width - 6, 13, 0xFFb0b0b0);
+        GL.drawSolidRect(gfx, x + 3, y + 3, this.modalWidth - 6, 13, 0xFFB0B0B0);
 
         gfx.drawString(this.font, this.title,
                 (int) (this.width / 2F - this.font.width(this.title) / 2F),

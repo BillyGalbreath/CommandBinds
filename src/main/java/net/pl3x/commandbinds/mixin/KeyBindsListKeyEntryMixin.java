@@ -8,9 +8,11 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.controls.KeyBindsList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.pl3x.commandbinds.CommandBinds;
-import net.pl3x.commandbinds.gui.CustomKey;
+import net.pl3x.commandbinds.configuration.Config;
+import net.pl3x.commandbinds.gui.CommandKey;
 import net.pl3x.commandbinds.gui.Tickable;
 import net.pl3x.keyboard.Keyboard;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +22,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -39,7 +42,7 @@ public class KeyBindsListKeyEntryMixin implements Tickable {
     @Unique
     private KeyBindsList keyBindsList;
     @Unique
-    private CustomKey customKey;
+    private CommandKey commandKey;
 
     /**
      * Here we are checking if this entry is one of our
@@ -50,7 +53,7 @@ public class KeyBindsListKeyEntryMixin implements Tickable {
         this.keyBindsList = keyBindsList;
         String nameKey = ((TranslatableContents) name.getContents()).getKey();
         if (nameKey.startsWith(String.format("%s.keymap.command.", CommandBinds.MODID))) {
-            this.customKey = Keyboard.getKey(nameKey) instanceof CustomKey key ? key : null;
+            this.commandKey = Keyboard.getKey(nameKey) instanceof CommandKey cmdKey ? cmdKey : null;
         }
     }
 
@@ -60,8 +63,8 @@ public class KeyBindsListKeyEntryMixin implements Tickable {
      */
     @Inject(method = "render(Lnet/minecraft/client/gui/GuiGraphics;IIIIIIIZF)V", at = @At("HEAD"), cancellable = true)
     private void render(@NotNull GuiGraphics gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovered, float delta, @NotNull CallbackInfo ci) {
-        if (this.customKey != null) {
-            this.customKey.render(gfx, index, top, left, width, height, mouseX, mouseY, hovered, delta, this.keyBindsList.maxNameWidth, this.changeButton, this.resetButton, this.hasCollision);
+        if (this.commandKey != null) {
+            this.commandKey.render(gfx, index, top, left, width, height, mouseX, mouseY, hovered, delta, this.keyBindsList.maxNameWidth, this.changeButton, this.resetButton, this.hasCollision);
             ci.cancel();
         }
     }
@@ -75,6 +78,21 @@ public class KeyBindsListKeyEntryMixin implements Tickable {
         cir.setReturnValue(this.children);
     }
 
+    @Inject(method = "refreshEntry()V", at = @At("TAIL"))
+    private void refreshEntry(@NotNull CallbackInfo ci) {
+        Config.save();
+    }
+
+    @Redirect(method = "refreshEntry()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;append(Lnet/minecraft/network/chat/Component;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 0))
+    private MutableComponent refreshEntry(@NotNull MutableComponent instance, @NotNull Component component) {
+        if (component.getContents() instanceof TranslatableContents contents &&
+                contents.getKey().startsWith(String.format(CommandBinds.KEY_NAME, "")) &&
+                Keyboard.getKey(contents.getKey()) instanceof CommandKey cmdKey) {
+            return instance.append(Component.literal(String.format("/%s", cmdKey.getCommand())));
+        }
+        return instance.append(component);
+    }
+
     /**
      * Here we are storing all the child widgets,
      * including our editbox if it exists
@@ -82,9 +100,9 @@ public class KeyBindsListKeyEntryMixin implements Tickable {
     @Override
     public void tickable$init() {
         this.children.clear();
-        if (this.customKey != null) {
-            this.customKey.tickable$init();
-            this.children.addAll(this.customKey.children());
+        if (this.commandKey != null) {
+            this.commandKey.tickable$init();
+            this.children.addAll(this.commandKey.children());
         }
         this.children.add(this.changeButton);
         this.children.add(this.resetButton);
@@ -95,8 +113,8 @@ public class KeyBindsListKeyEntryMixin implements Tickable {
      */
     @Override
     public void tickable$tick() {
-        if (this.customKey != null) {
-            this.customKey.tickable$tick();
+        if (this.commandKey != null) {
+            this.commandKey.tickable$tick();
         }
     }
 }

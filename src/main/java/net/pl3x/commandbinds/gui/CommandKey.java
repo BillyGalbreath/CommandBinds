@@ -1,34 +1,57 @@
 package net.pl3x.commandbinds.gui;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.controls.KeyBindsScreen;
 import net.minecraft.network.chat.Component;
 import net.pl3x.commandbinds.CommandBinds;
-import net.pl3x.commandbinds.gui.screen.KeyBindsModal;
+import net.pl3x.commandbinds.configuration.Config;
 import net.pl3x.keyboard.Key;
+import net.pl3x.keyboard.Keyboard;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class CustomKey extends Key implements Tickable {
-    public static final String CATEGORY = String.format("%s.title", CommandBinds.MODID);
-    public static final String NAME = String.format("%s.keymap.command.%%s", CommandBinds.MODID);
+public class CommandKey extends Key implements Tickable {
     private static final AtomicInteger NEXT_ID = new AtomicInteger(0);
 
     public final List<GuiEventListener> children = new ArrayList<>();
 
     private String command;
     private EditBox editbox;
+    private String lastEditboxValue;
     private CustomButton removeBtn;
+    private int keycode;
 
-    public CustomKey(int keycode, boolean alt, boolean ctrl, boolean meta, boolean shift, @NotNull String command) {
-        super(CATEGORY, String.format(NAME, NEXT_ID.getAndIncrement()), keycode, alt, ctrl, meta, shift);
-        setCommand(command);
+    public CommandKey(int keycode, @NotNull String command) {
+        this(keycode, false, false, false, false, command);
+    }
+
+    public CommandKey(int keycode, boolean alt, boolean ctrl, boolean meta, boolean shift, @NotNull String command) {
+        super(
+                CommandBinds.CATEGORY_TITLE,
+                String.format(CommandBinds.KEY_NAME, NEXT_ID.getAndIncrement()),
+                keycode, alt, ctrl, meta, shift
+        );
+        this.keycode = keycode;
+        this.command = command;
+    }
+
+    public int getKeyCode() {
+        return this.keycode;
+    }
+
+    @Override
+    public void setKey(@Nullable InputConstants.Key key) {
+        this.keycode = key == null ? -1 : key.getValue();
+        super.setKey(key);
     }
 
     @Override
@@ -54,19 +77,25 @@ public class CustomKey extends Key implements Tickable {
 
     public void tickable$init() {
         this.removeBtn = new CustomButton(0, 0, 16, 16, 16, 0, 32, 16, Component.empty(), btn -> {
-            //Keyboard.unbindKey(this);
-            //CommandBinds.refreshKeyBindScreen();
-            Minecraft client = Minecraft.getInstance();
-            if (client.screen instanceof KeyBindsScreen screen) {
-                float w = btn.getWidth() / 2F;
-                client.setScreen(new KeyBindsModal(screen, 250, 100, (int) (btn.getX() + w), (int) (btn.getY() + w), true));
-            }
+            Config.COMMAND_KEYBINDS.removeIf(key -> key.getName().equals(getName()));
+            Config.save();
+            Keyboard.unbindKey(this);
+            CommandBinds.refreshKeyBindScreen();
         });
+        this.removeBtn.setTooltip(Tooltip.create(Component.translatable("commandbinds.button.remove")));
 
         this.editbox = new EditBox(Minecraft.getInstance().font, 0, 0, 0, 0, Component.empty());
         this.editbox.setMaxLength(1024);
-        this.editbox.setValue(String.format("/%s", getCommand()));
-        this.editbox.setResponder(value -> setCommand(value.startsWith("/") ? value.substring(1) : value));
+        this.editbox.setValue(this.lastEditboxValue);
+        this.editbox.setResponder(value -> {
+            if (Objects.equals(value, this.lastEditboxValue)) {
+                return;
+            }
+            this.lastEditboxValue = value;
+            setCommand(value.startsWith("/") ? value.substring(1) : value);
+            Config.save();
+            System.out.println("editbox responder /" + getCommand());
+        });
 
         this.children.clear();
         this.children.add(this.removeBtn);

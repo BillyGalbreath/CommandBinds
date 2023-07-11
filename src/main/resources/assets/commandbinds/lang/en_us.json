@@ -1,5 +1,8 @@
 {
   "commandbinds.title": "CommandBinds",
+  "commandbinds.button.add": "Add New Command",
+  "commandbinds.button.close": "Close",
+  "commandbinds.button.remove": "Remove Command",
   "commandbinds.modal.options.title": "Key Binding Options",
   "modrinth.download.link": "Download on Modrinth"
 }

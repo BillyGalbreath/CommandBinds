@@ -5,20 +5,21 @@ import java.util.Collections;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.controls.KeyBindsList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.pl3x.commandbinds.CommandBinds;
+import net.pl3x.commandbinds.configuration.Config;
 import net.pl3x.keyboard.Keyboard;
 import net.pl3x.lib.gui.GL;
 import net.pl3x.lib.gui.animation.Animation;
-import net.pl3x.lib.gui.animation.Easing;
 import net.pl3x.lib.util.Mathf;
 import org.jetbrains.annotations.NotNull;
 
 public class CategoryEntryRenderer {
-    public static Animation HELLO = new Animation(0, 0, 0, Easing.Linear.flat);
+    public static Animation HELLO;
 
     private final List<? extends GuiEventListener> children;
 
@@ -33,11 +34,15 @@ public class CategoryEntryRenderer {
         this.name = name;
         this.width = Minecraft.getInstance().font.width(this.name);
 
-        if (this.name.getContents() instanceof TranslatableContents translatable && translatable.getKey().equals(CustomKey.CATEGORY)) {
+        if (this.name.getContents() instanceof TranslatableContents translatable && translatable.getKey().equals(CommandBinds.CATEGORY_TITLE)) {
             this.addBtn = new CustomButton(0, 0, 16, 16, 0, 0, 16, 16, Component.empty(), btn -> {
-                Keyboard.bindKey(new CustomKey(-1, false, false, false, false, ""));
+                CommandKey key = new CommandKey(-1, "");
+                Config.COMMAND_KEYBINDS.add(key);
+                Config.save();
+                Keyboard.bindKey(key);
                 CommandBinds.refreshKeyBindScreen();
             });
+            this.addBtn.setTooltip(Tooltip.create(Component.translatable("commandbinds.button.add")));
             this.children = ImmutableList.of(this.addBtn);
         } else {
             this.addBtn = null;
@@ -63,7 +68,7 @@ public class CategoryEntryRenderer {
         float x = this.keyBindsList.keyBindsScreen.width / 2F;
         int y = top + height - 10;
 
-        if (!HELLO.isFinished()) {
+        if (HELLO != null && !HELLO.isFinished()) {
             gfx.pose().translate(0, 0, 100);
             GL.scaleScene(gfx, x, y, 1 + Mathf.sin(Mathf.PI * HELLO.getValue()) / 4);
             GL.rotateScene(gfx, x, y, Mathf.sin(Mathf.PI * 4 * HELLO.getValue()) * 30);

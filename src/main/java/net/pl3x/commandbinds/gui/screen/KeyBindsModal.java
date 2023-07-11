@@ -9,7 +9,7 @@ public class KeyBindsModal extends ModalScreen {
     private final KeyBindsScreen keyBindsScreen;
     private final double scrollAmount;
 
-    public KeyBindsModal(@NotNull KeyBindsScreen parent, int dialogWidth, int dialogHeight, int initialX, int initialY, boolean animate) {
+    public KeyBindsModal(@NotNull KeyBindsScreen parent, float dialogWidth, float dialogHeight, float initialX, float initialY, boolean animate) {
         super(parent, Component.translatable("commandbinds.modal.options.title"), dialogWidth, dialogHeight, initialX, initialY, animate);
         this.keyBindsScreen = parent;
         this.scrollAmount = this.keyBindsScreen.keyBindsList.getScrollAmount();
