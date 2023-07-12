@@ -47,14 +47,14 @@ public class ModMenuScreen extends KeyBindsScreen {
             if (!contents.getKey().equals(CommandBinds.CATEGORY_TITLE)) {
                 continue;
             }
-            this.targetScrollAmount = (int) (this.keyBindsList.itemHeight * i + this.keyBindsList.itemHeight - this.height / 2F);
+            this.targetScrollAmount = (int) (this.keyBindsList.itemHeight * i + this.keyBindsList.itemHeight - this.height / 4F);
             return;
         }
     }
 
     @Override
     public void render(@NotNull GuiGraphics gfx, int mouseX, int mouseY, float delta) {
-        if (!this.scrollAnimation.isFinished()) {
+        if (!this.scrollAnimation.isFinished() && this.keyBindsList.getScrollAmount() < this.keyBindsList.getMaxScroll()) {
             this.keyBindsList.setScrollAmount(this.scrollAnimation.getValue() * this.targetScrollAmount);
         } else if (CategoryEntryRenderer.HELLO == null) {
             CategoryEntryRenderer.HELLO = new Animation(0, 1, 15, Easing.Cubic.inOut);

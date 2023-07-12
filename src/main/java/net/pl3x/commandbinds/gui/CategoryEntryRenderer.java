@@ -71,7 +71,7 @@ public class CategoryEntryRenderer {
         if (this.addBtn != null && HELLO != null && !HELLO.isFinished()) {
             gfx.pose().translate(0, 0, 100);
             GL.scaleScene(gfx, x, y, 1 + Mathf.sin(Mathf.PI * HELLO.getValue()) / 4);
-            GL.rotateScene(gfx, x, y, Mathf.sin(Mathf.PI * 4 * HELLO.getValue()) * 30);
+            GL.rotateScene(gfx, x, y, Mathf.sin(Mathf.PI * 4 * HELLO.getValue()) * 20);
         }
 
         gfx.drawString(Minecraft.getInstance().font, this.name, (int) (x - this.width / 2F), y, 0xFFFFFF, false);
