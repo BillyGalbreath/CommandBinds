@@ -26,7 +26,7 @@ public class KeyBindsListCategoryEntryMixin {
 
     @Inject(method = "render(Lnet/minecraft/client/gui/GuiGraphics;IIIIIIIZF)V", at = @At("HEAD"), cancellable = true)
     private void render(@NotNull GuiGraphics gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovered, float delta, @NotNull CallbackInfo ci) {
-        this.categoryEntryRenderer.render(gfx, index, top, left, width, height, mouseX, mouseY, hovered, delta);
+        this.categoryEntryRenderer.render(gfx, top, left, height, mouseX, mouseY, delta);
         ci.cancel();
     }
 

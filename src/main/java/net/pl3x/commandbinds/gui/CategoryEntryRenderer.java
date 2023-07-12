@@ -54,7 +54,7 @@ public class CategoryEntryRenderer {
         return this.children;
     }
 
-    public void render(@NotNull GuiGraphics gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovered, float delta) {
+    public void render(@NotNull GuiGraphics gfx, int top, int left, int height, int mouseX, int mouseY, float delta) {
         if (this.addBtn != null) {
             this.width = Minecraft.getInstance().font.width(this.name);
 
