@@ -25,7 +25,7 @@ public class CustomButton extends Button {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics gfx, int mouseX, int mouseY, float delta) {
+    protected void renderWidget(@NotNull GuiGraphics gfx, int mouseX, int mouseY, float delta) {
         if (isHoveredOrFocused() != this.activated) {
             this.activated = isHoveredOrFocused();
             this.animation = this.activated ?

@@ -7,12 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.fabricmc.loader.api.FabricLoader;
-import net.pl3x.commandbinds.CommandBinds;
 import net.pl3x.commandbinds.gui.CommandKey;
 import org.simpleyaml.configuration.file.YamlFile;
 
 public class Config {
-    public static final Path PATH = FabricLoader.getInstance().getGameDir().resolve("config").resolve(CommandBinds.MODID + ".yml");
+    public static final Path PATH = FabricLoader.getInstance().getGameDir().resolve("config").resolve("commandbinds.yml");
     private static final YamlFile CONFIG = new YamlFile(PATH.toFile());
 
     public static List<CommandKey> COMMAND_KEYBINDS = new ArrayList<>();
@@ -20,15 +19,15 @@ public class Config {
     public static void reload() {
         try {
             CONFIG.createOrLoad();
-        } catch (IOException ignore) {
-            ignore.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         CONFIG.getMapList("keybinds").forEach(map -> {
             try {
                 COMMAND_KEYBINDS.add(new CommandKey(Integer.parseInt(map.get("keycode").toString()), map.get("command").toString()));
-            } catch (NumberFormatException ignore) {
-                ignore.printStackTrace();
+            } catch (NumberFormatException e) {
+                throw new RuntimeException(e);
             }
         });
     }
@@ -46,8 +45,8 @@ public class Config {
 
         try {
             CONFIG.save(PATH.toFile());
-        } catch (IOException ignore) {
-            ignore.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

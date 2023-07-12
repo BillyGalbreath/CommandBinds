@@ -11,13 +11,14 @@ import net.pl3x.commandbinds.gui.CategoryEntryRenderer;
 import net.pl3x.lib.gui.animation.Animation;
 import net.pl3x.lib.gui.animation.Easing;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ModMenuScreen extends KeyBindsScreen {
     private final Animation scrollAnimation;
 
     private int targetScrollAmount;
 
-    public ModMenuScreen(Screen parent) {
+    public ModMenuScreen(@Nullable Screen parent) {
         super(parent, Minecraft.getInstance().options);
         this.scrollAnimation = new Animation(0, 1, 15, Easing.Exponential.inOut);
         CategoryEntryRenderer.HELLO = null;
@@ -25,7 +26,7 @@ public class ModMenuScreen extends KeyBindsScreen {
 
     @Override
     public void init() {
-        @SuppressWarnings("ConstantValue")
+        @SuppressWarnings("ConstantValue") // this really can be null before first init() call
         double scrollAmount = this.keyBindsList != null ? this.keyBindsList.getScrollAmount() : 0;
         super.init();
         this.keyBindsList.setScrollAmount(scrollAmount);

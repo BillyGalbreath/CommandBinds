@@ -1,5 +1,6 @@
 package net.pl3x.commandbinds.gui;
 
+import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.platform.InputConstants;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -63,11 +63,12 @@ public class CommandKey extends Key implements Tickable {
         };
     }
 
-    public String getCommand() {
+    public @NotNull String getCommand() {
         return this.command;
     }
 
-    public void setCommand(String command) {
+    public void setCommand(@NotNull String command) {
+        Preconditions.checkNotNull(command, "Command cannot be null");
         this.command = command;
     }
 
@@ -94,7 +95,6 @@ public class CommandKey extends Key implements Tickable {
             this.lastEditboxValue = value;
             setCommand(value.startsWith("/") ? value.substring(1) : value);
             Config.save();
-            System.out.println("editbox responder /" + getCommand());
         });
 
         this.children.clear();
@@ -102,7 +102,7 @@ public class CommandKey extends Key implements Tickable {
         this.children.add(this.editbox);
     }
 
-    public List<? extends GuiEventListener> children() {
+    public @NotNull List<GuiEventListener> children() {
         return this.children;
     }
 
@@ -112,31 +112,18 @@ public class CommandKey extends Key implements Tickable {
         }
     }
 
-    public void render(@NotNull GuiGraphics gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovered, float delta, int maxWidth, Button changeButton, Button resetButton, boolean hasCollision) {
+    public void render(@NotNull GuiGraphics gfx, int top, int left, int width, int height, int mouseX, int mouseY, float delta) {
         if (this.editbox != null) {
-            this.editbox.setX(left + 90 - maxWidth);
+            this.editbox.setX(left + 90 - width);
             this.editbox.setY((top + height / 2) - 6);
-            this.editbox.setWidth(maxWidth + 3);
+            this.editbox.setWidth(width + 3);
             this.editbox.height = height;
             this.editbox.setValue(String.format("/%s", getCommand()));
             this.editbox.render(gfx, mouseX, mouseY, delta);
         }
 
-        this.removeBtn.setX(left + 67 - maxWidth);
+        this.removeBtn.setX(left + 67 - width);
         this.removeBtn.setY(top + 3);
         this.removeBtn.render(gfx, mouseX, mouseY, delta);
-
-        resetButton.setX(left + 190);
-        resetButton.setY(top);
-        resetButton.render(gfx, mouseX, mouseY, delta);
-
-        changeButton.setX(left + 105);
-        changeButton.setY(top);
-        changeButton.render(gfx, mouseX, mouseY, delta);
-
-        if (hasCollision) {
-            int q = changeButton.getX() - 6;
-            gfx.fill(q, top + 2, q + 3, top + height + 2, 0xFFFF5555);
-        }
     }
 }

@@ -33,7 +33,7 @@ public class ModalScreen extends Screen {
     protected int top;
     protected int left;
 
-    public ModalScreen(@Nullable KeyBindsScreen parent, Component title, float modalWidth, float modalHeight, float initialX, float initialY, boolean animate) {
+    public ModalScreen(@Nullable KeyBindsScreen parent, @NotNull Component title, float modalWidth, float modalHeight, float initialX, float initialY, boolean animate) {
         super(title);
         this.parent = parent;
 

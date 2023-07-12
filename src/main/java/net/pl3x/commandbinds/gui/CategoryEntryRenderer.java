@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 public class CategoryEntryRenderer {
     public static Animation HELLO;
 
-    private final List<? extends GuiEventListener> children;
+    private final List<GuiEventListener> children;
 
     private final KeyBindsList keyBindsList;
     private final CustomButton addBtn;
@@ -50,11 +50,11 @@ public class CategoryEntryRenderer {
         }
     }
 
-    public List<? extends GuiEventListener> children() {
+    public @NotNull List<? extends GuiEventListener> children() {
         return this.children;
     }
 
-    public void render(GuiGraphics gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovered, float delta) {
+    public void render(@NotNull GuiGraphics gfx, int index, int top, int left, int width, int height, int mouseX, int mouseY, boolean hovered, float delta) {
         if (this.addBtn != null) {
             this.width = Minecraft.getInstance().font.width(this.name);
 
