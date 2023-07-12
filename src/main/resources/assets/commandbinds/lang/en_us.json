@@ -1,5 +1,6 @@
 {
   "commandbinds.title": "CommandBinds",
+  "commandbinds.keymap.open_keybinds": "Quickly open this screen",
   "commandbinds.button.add": "Add New Command",
   "commandbinds.button.close": "Close",
   "commandbinds.button.remove": "Remove Command",

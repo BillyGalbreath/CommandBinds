@@ -6,7 +6,10 @@ import net.minecraft.client.gui.screens.controls.KeyBindsScreen;
 import net.minecraft.resources.ResourceLocation;
 import net.pl3x.commandbinds.configuration.Config;
 import net.pl3x.commandbinds.gui.CommandKey;
+import net.pl3x.commandbinds.gui.screen.ModMenuScreen;
+import net.pl3x.keyboard.Key;
 import net.pl3x.keyboard.Keyboard;
+import org.lwjgl.glfw.GLFW;
 
 public class CommandBinds implements ClientModInitializer {
     public static final String CATEGORY_TITLE = "commandbinds.title";
@@ -20,6 +23,10 @@ public class CommandBinds implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         Config.reload();
+
+        Keyboard.bindKey(new Key(CATEGORY_TITLE, "commandbinds.keymap.open_keybinds", GLFW.GLFW_KEY_K, client ->
+                client.setScreen(new ModMenuScreen(client.screen))
+        ));
 
         Config.COMMAND_KEYBINDS.forEach(Keyboard::bindKey);
 
