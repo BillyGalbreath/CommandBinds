@@ -16,9 +16,7 @@ public class CommandBinds implements ClientModInitializer {
     public static final String KEY_NAME = "commandbinds.keymap.command.%s";
 
     public static final ResourceLocation TEXTURES_LOCATION = new ResourceLocation("commandbinds", "textures/textures.png");
-
-    public static final int TEXTURES_WIDTH = 64;
-    public static final int TEXTURES_HEIGHT = 64;
+    public static final int TEXTURES_SIZE = 64;
 
     @Override
     public void onInitializeClient() {

@@ -39,10 +39,10 @@ public class CustomButton extends Button {
         // normal
         GL.drawTexture(gfx, CommandBinds.TEXTURES_LOCATION,
                 getX(), getY(), getWidth(), getHeight(),
-                this.u0 / (float) CommandBinds.TEXTURES_WIDTH,
-                this.v0 / (float) CommandBinds.TEXTURES_HEIGHT,
-                this.u1 / (float) CommandBinds.TEXTURES_WIDTH,
-                this.v1 / (float) CommandBinds.TEXTURES_HEIGHT
+                this.u0 / (float) CommandBinds.TEXTURES_SIZE,
+                this.v0 / (float) CommandBinds.TEXTURES_SIZE,
+                this.u1 / (float) CommandBinds.TEXTURES_SIZE,
+                this.v1 / (float) CommandBinds.TEXTURES_SIZE
         );
 
         RenderSystem.setShaderColor(1, 1, 1, this.animation.getValue());
@@ -50,10 +50,10 @@ public class CustomButton extends Button {
         // hovered
         GL.drawTexture(gfx, CommandBinds.TEXTURES_LOCATION,
                 getX(), getY(), getWidth(), getHeight(),
-                this.u0 / (float) CommandBinds.TEXTURES_WIDTH,
-                (this.v0 + getHeight()) / (float) CommandBinds.TEXTURES_HEIGHT,
-                this.u1 / (float) CommandBinds.TEXTURES_WIDTH,
-                (this.v1 + getHeight()) / (float) CommandBinds.TEXTURES_HEIGHT
+                this.u0 / (float) CommandBinds.TEXTURES_SIZE,
+                (this.v0 + getHeight()) / (float) CommandBinds.TEXTURES_SIZE,
+                this.u1 / (float) CommandBinds.TEXTURES_SIZE,
+                (this.v1 + getHeight()) / (float) CommandBinds.TEXTURES_SIZE
         );
 
         RenderSystem.setShaderColor(1, 1, 1, 1);

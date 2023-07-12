@@ -119,8 +119,8 @@ public class ModalScreen extends Screen {
                 x, y,
                 (int) this.modalWidth, (int) this.modalWidth,
                 6, 0, 32, 16, 48,
-                CommandBinds.TEXTURES_WIDTH,
-                CommandBinds.TEXTURES_HEIGHT
+                CommandBinds.TEXTURES_SIZE,
+                CommandBinds.TEXTURES_SIZE
         );
 
         GL.drawSolidRect(gfx, x + 3, y + 3, this.modalWidth - 6, 13, 0xFFB0B0B0);
