@@ -21,7 +21,13 @@ There are 3 ways to get to the Key Binds screen.
 2) Mod Menu > CommandBinds > Configure
 3) Press `K` key when in-game
 
-You can add or remove entries using the provided buttons on the left side. Just type the command you want in the textbox. Then click the button and assign the key you want.
+Once you find the CommandBinds section on the Key Binds screen
+
+1) You can add or remove entries using the provided buttons on the left side.
+2) Just type the command you want in the textbox.
+3) Then click the button and assign the key you want.
+
+That's it. Simple. Elegant.
 
 ## Supported Platforms
 
