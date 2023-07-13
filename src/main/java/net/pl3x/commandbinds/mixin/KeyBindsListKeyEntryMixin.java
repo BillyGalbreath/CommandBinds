@@ -25,7 +25,7 @@ public class KeyBindsListKeyEntryMixin implements Tickable {
     @Unique
     private KeyEntryRenderer keyEntryRenderer;
 
-    @Inject(method = "<init>", at = @At("TAIL"))
+    @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/controls/KeyBindsList$KeyEntry;refreshEntry()V"))
     private void ctor(@NotNull KeyBindsList keyBindsList, @NotNull KeyMapping mapping, @NotNull Component name, @NotNull CallbackInfo ci) {
         this.keyEntryRenderer = new KeyEntryRenderer(keyBindsList, mapping, name);
     }
