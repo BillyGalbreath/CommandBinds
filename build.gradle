@@ -86,4 +86,7 @@ modrinth {
     gameVersions.addAll(["${minecraftVersion}"])
     loaders.addAll(['fabric'])
     changelog = System.getenv('COMMIT_MESSAGE')
+    dependencies {
+        required.project 'fabric-api'
+    }
 }
